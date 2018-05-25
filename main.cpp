@@ -12,9 +12,10 @@ class ExtendArea{
 public:
 
     vector<vector<int>> data;
-    vector<vector<int>> result;
 
-    int degree = 4;
+    map<pair<int,int>, int> area;
+
+    int degree = 10;
     int base = 10;
 
     ExtendArea(map< int , vector<int> > &data){
@@ -32,7 +33,6 @@ public:
         this->data.erase(
                          unique(this->data.begin(), this->data.end(), cmp_unique),
                          this->data.end());
-
     }
 
     void enlarge_area(){
@@ -45,13 +45,8 @@ public:
             for(auto it2 = small.begin(); it2 != small.end(); it2++){
 
                 vector<int> &p = *it2;
-
-                if(!mark_area(p)){
-                    result.push_back(p);
-                }
+                mark_area(p);
             }
-
-            sort(result.begin(), result.end(),cmp_sort);
         }
     }
 
@@ -64,7 +59,6 @@ public:
         for(int i=p[0]-d;i<=p[0]+d;i+=base){
 
             for(int j=p[1]-d;j<=p[1]+d;j+=base){
-
                 r.push_back({i,j,0});
             }
         }
@@ -73,21 +67,25 @@ public:
     }
 
     vector<vector <int>> get_result(){
+
+        vector<vector<int>> result;
+
+        for (map<pair<int,int>,int>::iterator it=area.begin(); it!=area.end(); ++it){
+
+            pair<int,int> p = it->first;
+
+            result.push_back({p.first,p.second,it->second});
+
+        }
+
         return result;
     }
 
     void debug(){
+        for (map<pair<int,int>,int>::iterator it=area.begin(); it!=area.end(); ++it){
 
-        vector<vector<int>>::iterator it;
-        for ( it = result.begin(); it != result.end(); it++ )
-        {
-            vector<int> &t = *it;
-            cout<< t[0]
-                <<","
-                <<t[1]
-                <<","
-                <<t[2]
-                <<endl;
+            pair<int,int> p = it->first;
+            cout<<p.first<<","<<p.second<<","<< it->second<<endl;
         }
     }
 
@@ -101,20 +99,13 @@ private:
         return i[0] < j[0] || (i[0]==j[0]&&i[1]==j[1]&&i[2]==j[2]);
     }
 
-    bool mark_area(const vector<int> &i){
+    void mark_area(const vector<int> &i){
 
-        vector<vector<int>>::iterator it;
-        for ( it = result.begin(); it != result.end(); it++ )
-        {
-            vector<int> &t = *it;
-
-            if(it[0][0]==i[0] && it[0][1]==i[1]){
-                t[2]++;
-                return true;
-            }
+        if ( area.find(make_pair(i[0],i[1])) == area.end() ) {
+            area[make_pair(i[0],i[1])] = 0;
+        } else {
+            area[make_pair(i[0],i[1])]++;
         }
-
-        return false;
     }
 
     void round(vector<int> &p){
@@ -131,36 +122,11 @@ private:
 
 int main()
 {
-    ifstream infile("C:\\Users\\Samuel\\Downloads\\db888.txt");
+
 
     map< int , vector<int> > data;
-    int a, b, c, d;
-    while (infile >> a >> b >>c>>d)
-    {
-        data[a] = {b,c,d};
-    }
-    infile.close();
-
-    ExtendArea e(data);
-
-    e.enlarge_area();
-
-    //e.debug();
-
-    vector<vector<int>> r = e.get_result();
-
-    ofstream myfile;
-    myfile.open ("C:\\Users\\Samuel\\Downloads\\example.txt");
 
 
-    for(auto it = r.begin();it!=r.end();it++){
-
-        myfile<<it[0][0]<<","<<it[0][1]<<","<<it[0][2]<<endl;
-
-    }
-
-  
-    myfile.close();
 
 
     return 0;
