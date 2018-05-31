@@ -5,7 +5,7 @@ import sys, time, xmlrpclib
 
 
 
-proxy =  xmlrpclib.ServerProxy("https://localhost:8080/RPC2") 
+proxy =  xmlrpclib.ServerProxy("http://localhost:8080/RPC2") 
 
 
 data = proxy.retrieve_map()
