@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include <xmlrpc-c/base.hpp>
 #include <xmlrpc-c/registry.hpp>
@@ -13,21 +14,26 @@ using namespace std;
 
 vector<vector<int>> extend_area(){
    
-   map< int , vector<int> > data;
-   
-   data[1] = {1,2,3};
-   data[2] = {10,2,4};
-   
-   ExtendArea e(data);
-   
-   e.set_degree(5);
-   e.set_offset(20);
-   
-   e.enlarge_area();
-   
-   vector<vector<int>> result = e.get_result();
-   
-   return result;
+    ifstream infile("db888.txt");
+    
+    map< int , vector<int> > data;
+    int a, b, c, d;
+    while (infile >> a >> b >>c>>d)
+    {
+        data[a] = {b,c,d};
+    }
+    infile.close();
+    
+    ExtendArea e(data);
+    
+    e.set_degree(5);
+    e.set_offset(0);
+    
+    e.enlarge_area();
+    
+    vector<vector<int>> result = e.get_result();
+    
+    return result;
 }
 
 class RetrieveMap : public xmlrpc_c::method{
@@ -76,7 +82,7 @@ int main(){
         xmlrpc_c::serverAbyss myAbyssServer(
             xmlrpc_c::serverAbyss::constrOpt()
             .registryP(&myRegistry)
-            .portNumber(8090)
+            .portNumber(8080)
             .logFileName("/tmp/xmlrpc_log"));
 
         myAbyssServer.run();
