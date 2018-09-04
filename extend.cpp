@@ -171,6 +171,7 @@ int ExtendArea::offset_theta(int theta){
     int _theta = theta - offset;
 
     _theta  = _theta < -180 ?  360+_theta : _theta;
+    _theta  = _theta > 180  ?  _theta-360 : _theta; 
 
     return _theta;
 }
