@@ -1,3 +1,4 @@
+from matplotlib.collections import PatchCollection
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -12,6 +13,7 @@ data = proxy.retrieve_map(0,360)
 
 fig1 = plt.figure(1)
 ax1 = fig1.add_subplot(111)
+patches = []
 
 
 for d in data:
@@ -29,9 +31,9 @@ for d in data:
 	else:
 		c='#581845'
 	
-	square = matplotlib.patches.Rectangle((d[0], d[1]), 10, 10, color=c)
-	ax1.add_patch(square)
-	
+	patches.append(matplotlib.patches.Rectangle((d[0], d[1]), 10, 10, color=c))
+
+ax1.add_collection(PatchCollection(patches))	
 	
 maxX = max([d[0] for d in data])+10
 minX = min([d[0] for d in data])-10
