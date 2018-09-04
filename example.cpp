@@ -12,7 +12,7 @@
 using namespace std;
 
 
-vector<vector<int>> extend_area(){
+vector<vector<int>> extend_area(int const start,int const end){
    
     ifstream infile("db888.txt");
     
@@ -24,7 +24,7 @@ vector<vector<int>> extend_area(){
     }
     infile.close();
     
-    ExtendArea e(data);
+    ExtendArea e(data,start,end);
     
     e.set_degree(5);
     e.set_offset(0);
@@ -44,11 +44,15 @@ class RetrieveMap : public xmlrpc_c::method{
     execute(xmlrpc_c::paramList const& paramList,
             xmlrpc_c::value *   const  retvalP){
 
-         paramList.verifyEnd(0);
          
-         vector<vector<int>> result = extend_area();
-         
-         xmlrpc_c::carray area;
+        int const start(paramList.getInt(0));
+        int const end(paramList.getInt(1));
+        
+        paramList.verifyEnd(2);
+        
+        vector<vector<int>> result = extend_area(start,end);
+        
+        xmlrpc_c::carray area;
          
          for(auto it = result.begin();it!=result.end();it++){
          

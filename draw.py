@@ -8,7 +8,7 @@ import sys, time, xmlrpclib
 proxy =  xmlrpclib.ServerProxy("http://localhost:8080/RPC2") 
 
 
-data = proxy.retrieve_map()
+data = proxy.retrieve_map(0,360)
 
 fig1 = plt.figure(1)
 ax1 = fig1.add_subplot(111)
