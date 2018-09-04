@@ -33,7 +33,7 @@ for d in data:
 	
 	patches.append(matplotlib.patches.Rectangle((d[0], d[1]), 10, 10, color=c))
 
-ax1.add_collection(PatchCollection(patches),match_original=True)	
+ax1.add_collection(PatchCollection(patches,match_original=True))	
 	
 maxX = max([d[0] for d in data])+10
 minX = min([d[0] for d in data])-10
