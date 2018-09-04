@@ -1,7 +1,7 @@
 CFLAGS = -std=c++11
 
 LDFLAGS= -lxmlrpc_server_abyss++ -lxmlrpc_server++ \
-				-lxmlrpc_util++  -lxmlrpc++ \
+				-lxmlrpc_util  -lxmlrpc++ \
 				-pthread
 ALL: example
 
