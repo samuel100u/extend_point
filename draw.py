@@ -9,7 +9,7 @@ import sys, time, xmlrpclib
 proxy =  xmlrpclib.ServerProxy("http://localhost:8080/RPC2") 
 
 
-data = proxy.retrieve_map(0,360)
+data = proxy.retrieve_map(-180,180)
 
 fig1 = plt.figure(1)
 ax1 = fig1.add_subplot(111)
@@ -33,7 +33,7 @@ for d in data:
 	
 	patches.append(matplotlib.patches.Rectangle((d[0], d[1]), 10, 10, color=c))
 
-ax1.add_collection(PatchCollection(patches))	
+ax1.add_collection(PatchCollection(patches),match_original=True)	
 	
 maxX = max([d[0] for d in data])+10
 minX = min([d[0] for d in data])-10
