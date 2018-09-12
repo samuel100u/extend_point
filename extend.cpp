@@ -22,17 +22,23 @@ ExtendArea::ExtendArea(map< int , vector<int> > &data, int from, int to){
 
     map<int , vector<int>>::iterator it;
 
-
+    
     for ( it = data.begin(); it != data.end(); it++ )
     {
 
-        if(it->second[2]>= from && it->second[2]<=to){
+        if( (from <= to && it->second[2]>= from && it->second[2]<=to) ||
+                (from > to && (it->second[2]>= from || it->second[2]<=to))
+            )
+        {
 
             round(it->second);
             this->data.push_back(it->second);
         }
 
     }
+    
+    
+    
 
     sort(this->data.begin(), this->data.end(),cmp_sort);
 
